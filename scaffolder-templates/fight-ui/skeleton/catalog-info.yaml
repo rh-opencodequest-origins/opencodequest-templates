@@ -21,6 +21,7 @@ metadata:
     backstage.io/source-location: url:https://${{values.host}}/${{values.destination}}
     backstage.io/techdocs-ref: url:https://${{values.host}}/${{values.destination}}
     gitlab.com/project-slug: ${{values.destination}}
+    sonarqube.org/project-key: ${{values.user}}-${{values.component_id}}
   tags:
     - quarkus
   # links:
