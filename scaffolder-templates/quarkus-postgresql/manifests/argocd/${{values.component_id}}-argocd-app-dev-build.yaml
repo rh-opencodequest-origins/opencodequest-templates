@@ -3,13 +3,13 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: ${{values.user}}-${{ values.component_id }}-dev-build
-  namespace: janus-argocd
+  namespace: rhdh-gitops
   finalizers:
     - resources-finalizer.argocd.argoproj.io
   annotations:
     argocd.argoproj.io/sync-wave: "-1"
 spec:
-  project: janus
+  project: default
   source:
     repoURL: ${{ values.destination }}
     targetRevision: HEAD

@@ -99,7 +99,7 @@ spec:
       input:
         appName: ${{ user.entity.metadata.name }}-fight-ui-bootstrap
         argoInstance: main
-        namespace: janus-argocd
+        namespace: rhdh-gitops
         repoUrl: https://gitlab-gitlab.${{ parameters.openshiftCluster }}/${{ user.entity.metadata.name }}/fight-ui-gitops.git
         path: 'argocd/'
 
