@@ -25,21 +25,21 @@ spec:
           type: string
           enum:
             # - apps.cluster-gbsk4.gbsk4.sandbox156.opentlc.com
-            - apps.cluster-rw97m.sandbox266.opentlc.com
+            - {{ cluster_subdomain }}
       dependencies:
         openshiftCluster:
           oneOf:
             - properties:
                 openshiftCluster:
                   enum:
-                    - apps.cluster-rw97m.sandbox266.opentlc.com
+                    - {{ cluster_subdomain }}
                 image_host:
                   title: Image Host
                   type: string
                   description: Host for storing image
                   enum: 
-                    - quay-rw97m.apps.cluster-rw97m.sandbox266.opentlc.com
-                  default: quay-rw97m.apps.cluster-rw97m.sandbox266.opentlc.com
+                    - {{ quay_host }}
+                  default: {{ quay_host }}
                 image_organization:
                   title: Organization
                   type: string
@@ -130,7 +130,7 @@ spec:
             verify_commits:
               title: Verify Commits
               type: string
-              description: Verify Git repository commits using Red Hat’s Trusted Artifact Signer (TAS) service
+              description: Verify Git repository commits using Red Hat's Trusted Artifact Signer (TAS) service
               default: disabled
               enum:
                 - enabled
@@ -146,36 +146,36 @@ spec:
         copyWithoutTemplating:
           - .github/workflows/*
         values:
-          component_id: ${{ parameters.component_id }}
-          description: ${{ parameters.description }}
-          namespace: '${{ user.entity.metadata.name }}-workshop-dev'
-          group_id: ${{ parameters.group_id }}
-          artifact_id: ${{ parameters.artifact_id }}
-          java_package_name: ${{ parameters.java_package_name }}
-          java_package_name_dir: ${{ parameters.java_package_name | replace(".","/") }}
-          owner: ${{ user.entity.metadata.name }}
-          cluster: .${{ parameters.openshiftCluster }}
-          host: ${{ parameters.repo.host }}.${{ parameters.openshiftCluster }}
-          destination: '${{ user.entity.metadata.name }}/${{ parameters.component_id }}'
-          quay_destination: ${{ parameters.image_organization}}/${{ user.entity.metadata.name }}-${{ parameters.component_id }}
+          component_id: {{ '{{' }} parameters.component_id {{ '}}' }}
+          description: {{ '{{' }} parameters.description {{ '}}' }}
+          namespace: '{{ '{{' }} user.entity.metadata.name {{ '}}' }}-workshop-dev'
+          group_id: {{ '{{' }} parameters.group_id {{ '}}' }}
+          artifact_id: {{ '{{' }} parameters.artifact_id {{ '}}' }}
+          java_package_name: {{ '{{' }} parameters.java_package_name {{ '}}' }}
+          java_package_name_dir: {{ '{{' }} parameters.java_package_name | replace(".","/") {{ '}}' }}
+          owner: {{ '{{' }} user.entity.metadata.name {{ '}}' }}
+          cluster: .{{ '{{' }} parameters.openshiftCluster {{ '}}' }}
+          host: {{ '{{' }} parameters.repo.host {{ '}}' }}.{{ '{{' }} parameters.openshiftCluster {{ '}}' }}
+          destination: '{{ '{{' }} user.entity.metadata.name {{ '}}' }}/{{ '{{' }} parameters.component_id {{ '}}' }}'
+          quay_destination: {{ '{{' }} parameters.image_organization{{ '}}' }}/{{ '{{' }} user.entity.metadata.name {{ '}}' }}-{{ '{{' }} parameters.component_id {{ '}}' }}
           port: 8080
-          verify_commits: ${{ parameters.repo.verify_commits }}
-          api_endpoint: ${{ parameters.api_endpoint }}
-          system: ${{ user.entity.metadata.name }}-workshop
-          user: ${{ user.entity.metadata.name }}
+          verify_commits: {{ '{{' }} parameters.repo.verify_commits {{ '}}' }}
+          api_endpoint: {{ '{{' }} parameters.api_endpoint {{ '}}' }}
+          system: {{ '{{' }} user.entity.metadata.name {{ '}}' }}-workshop
+          user: {{ '{{' }} user.entity.metadata.name {{ '}}' }}
 
     - id: publish
       name: Publish
       action: publish:gitlab
       input:
-        repoUrl: "${{ parameters.repo.host }}.${{ parameters.openshiftCluster }}?owner=${{ user.entity.metadata.name }}&repo=${{parameters.component_id}}"
+        repoUrl: "{{ '{{' }} parameters.repo.host {{ '}}' }}.{{ '{{' }} parameters.openshiftCluster {{ '}}' }}?owner={{ '{{' }} user.entity.metadata.name {{ '}}' }}&repo={{ '{{' }}parameters.component_id{{ '}}' }}"
         repoVisibility: public
 
     - id: register
       name: Register
       action: catalog:register
       input:
-        repoContentsUrl: ${{ steps.publish.output.repoContentsUrl }}
+        repoContentsUrl: {{ '{{' }} steps.publish.output.repoContentsUrl {{ '}}' }}
         catalogInfoPath: "/catalog-info.yaml"
 
     - id: template-gitops-deployment
@@ -185,33 +185,33 @@ spec:
         url: ./manifests
         copyWithoutTemplating: []
         values:
-          component_id: ${{ parameters.component_id }}
-          description: ${{ parameters.description }}
-          destination: https://${{ parameters.repo.host }}.${{ parameters.openshiftCluster }}/${{ user.entity.metadata.name }}/${{parameters.component_id}}-gitops.git
-          source_repository: https://${{ parameters.repo.host }}.${{ parameters.openshiftCluster }}/${{ user.entity.metadata.name }}/${{parameters.component_id}}.git
-          repository_name: ${{parameters.component_id}}
-          git_owner: '${{ user.entity.metadata.name }}'
-          cluster: .${{ parameters.openshiftCluster }}
-          namespace: ${{ user.entity.metadata.name }}-workshop-dev
-          image_registry: ${{ parameters.image_registry }}
-          image_host: ${{ parameters.image_host }}
-          image_organization: ${{ parameters.image_organization }}
-          image_name: ${{ parameters.component_id }}
-          image_tag: ${{ parameters.image_tag }}
+          component_id: {{ '{{' }} parameters.component_id {{ '}}' }}
+          description: {{ '{{' }} parameters.description {{ '}}' }}
+          destination: https://{{ '{{' }} parameters.repo.host {{ '}}' }}.{{ '{{' }} parameters.openshiftCluster {{ '}}' }}/{{ '{{' }} user.entity.metadata.name {{ '}}' }}/{{ '{{' }}parameters.component_id{{ '}}' }}-gitops.git
+          source_repository: https://{{ '{{' }} parameters.repo.host {{ '}}' }}.{{ '{{' }} parameters.openshiftCluster {{ '}}' }}/{{ '{{' }} user.entity.metadata.name {{ '}}' }}/{{ '{{' }}parameters.component_id{{ '}}' }}.git
+          repository_name: {{ '{{' }}parameters.component_id{{ '}}' }}
+          git_owner: '{{ '{{' }} user.entity.metadata.name {{ '}}' }}'
+          cluster: .{{ '{{' }} parameters.openshiftCluster {{ '}}' }}
+          namespace: {{ '{{' }} user.entity.metadata.name {{ '}}' }}-workshop-dev
+          image_registry: {{ '{{' }} parameters.image_registry {{ '}}' }}
+          image_host: {{ '{{' }} parameters.image_host {{ '}}' }}
+          image_organization: {{ '{{' }} parameters.image_organization {{ '}}' }}
+          image_name: {{ '{{' }} parameters.component_id {{ '}}' }}
+          image_tag: {{ '{{' }} parameters.image_tag {{ '}}' }}
           port: 8080
-          repository_host: ${{ parameters.repo.host }}.${{ parameters.openshiftCluster }}
-          deployment_name: ${{ parameters.component_id }}
-          user: ${{ user.entity.metadata.name }}
-          verify_commits: ${{ parameters.repo.verify_commits }}
+          repository_host: {{ '{{' }} parameters.repo.host {{ '}}' }}.{{ '{{' }} parameters.openshiftCluster {{ '}}' }}
+          deployment_name: {{ '{{' }} parameters.component_id {{ '}}' }}
+          user: {{ '{{' }} user.entity.metadata.name {{ '}}' }}
+          verify_commits: {{ '{{' }} parameters.repo.verify_commits {{ '}}' }}
         targetPath: ./tenant-gitops
 
     - id: publish-gitops
       name: Publishing to Resource Repository
       action: publish:gitlab
       input:
-        repoUrl: "${{ parameters.repo.host }}.${{ parameters.openshiftCluster }}?owner=${{ user.entity.metadata.name }}&repo=${{parameters.component_id}}-gitops"
-        title: gitops resources for ${{ parameters.component_id }}
-        description: gitops resources for ${{ parameters.component_id }}
+        repoUrl: "{{ '{{' }} parameters.repo.host {{ '}}' }}.{{ '{{' }} parameters.openshiftCluster {{ '}}' }}?owner={{ '{{' }} user.entity.metadata.name {{ '}}' }}&repo={{ '{{' }}parameters.component_id{{ '}}' }}-gitops"
+        title: gitops resources for {{ '{{' }} parameters.component_id {{ '}}' }}
+        description: gitops resources for {{ '{{' }} parameters.component_id {{ '}}' }}
         sourcePath: ./tenant-gitops
         repoVisibility: public
         branches:
@@ -222,16 +222,16 @@ spec:
       name: Create ArgoCD Resources
       action: argocd:create-resources
       input:
-        appName: ${{ user.entity.metadata.name }}-${{ parameters.component_id }}-bootstrap
+        appName: {{ '{{' }} user.entity.metadata.name {{ '}}' }}-{{ '{{' }} parameters.component_id {{ '}}' }}-bootstrap
         argoInstance: main
         namespace: rhdh-gitops
-        repoUrl: 'https://${{ parameters.repo.host }}.${{ parameters.openshiftCluster }}/${{ user.entity.metadata.name }}/${{ parameters.component_id }}-gitops.git'
+        repoUrl: 'https://{{ '{{' }} parameters.repo.host {{ '}}' }}.{{ '{{' }} parameters.openshiftCluster {{ '}}' }}/{{ '{{' }} user.entity.metadata.name {{ '}}' }}/{{ '{{' }} parameters.component_id {{ '}}' }}-gitops.git'
         path: 'argocd/'
 
   output:
     links:
       - title: Source Code Repository
-        url: ${{ steps.publish.output.remoteUrl }}
+        url: {{ '{{' }} steps.publish.output.remoteUrl {{ '}}' }}
       - title: Open Component in catalog
         icon: catalog
-        entityRef: ${{ steps.register.output.entityRef }}
+        entityRef: {{ '{{' }} steps.register.output.entityRef {{ '}}' }}

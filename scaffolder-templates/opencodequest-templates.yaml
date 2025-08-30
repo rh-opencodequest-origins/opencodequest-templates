@@ -6,7 +6,7 @@ metadata:
 spec:
   type: url
   targets:
-    - https://github.com/rh-trucathon/rhdh-templates/blob/main/scaffolder-templates/fight-ui/template.yaml
-    - https://github.com/rh-trucathon/rhdh-templates/blob/main/scaffolder-templates/quarkus-postgresql/template.yaml
-    - https://github.com/rh-trucathon/rhdh-templates/blob/main/scaffolder-templates/quarkus-with-spring-postgresql/template.yaml
-    - https://github.com/rh-trucathon/rhdh-templates/blob/main/scaffolder-templates/quarkus-ai/template.yaml
+    - https://{{ gitlab_host }}/opencodequest-templates/scaffolder-templates/fight-ui/template.yaml
+    - https://{{ gitlab_host }}/opencodequest-templates/scaffolder-templates/quarkus-postgresql/template.yaml
+    - https://{{ gitlab_host }}/opencodequest-templates/scaffolder-templates/quarkus-with-spring-postgresql/template.yaml
+    - https://{{ gitlab_host }}/opencodequest-templates/scaffolder-templates/quarkus-ai/template.yaml
