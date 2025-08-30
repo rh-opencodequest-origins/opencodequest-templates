@@ -106,7 +106,7 @@ spec:
   output:
     links:
       - title: Source Code Repository
-        url: {{ '{{' }}steps.publishSource.output.remoteUrl{{ '}}' }}
+        url: {{ '{{' }} steps.publishSource.output.remoteUrl {{ '}}' }}
       - title: Open Component in catalog
         icon: catalog
-        entityRef: {{ '{{' }}steps.registerSource.output.entityRef{{ '}}' }}
+        entityRef: {{ '{{' }} steps.registerSource.output.entityRef {{ '}}' }}
