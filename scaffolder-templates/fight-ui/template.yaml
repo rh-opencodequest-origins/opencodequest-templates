@@ -109,4 +109,4 @@ spec:
         url: {{ '{{' }}steps.publishSource.output.remoteUrl{{ '}}' }}
       - title: Open Component in catalog
         icon: catalog
-        entityRef: {{ '{{' }}steps.registerSource.output.entityRef{{ '}}' }
+        entityRef: {{ '{{' }}steps.registerSource.output.entityRef{{ '}}' }}
