@@ -25,21 +25,21 @@ spec:
           type: string
           enum:
             # - apps.cluster-gbsk4.gbsk4.sandbox156.opentlc.com
-            - apps.cluster-rw97m.sandbox266.opentlc.com
+            - apps.cluster-tmjrv.tmjrv.sandbox2009.opentlc.com
       dependencies:
         openshiftCluster:
           oneOf:
             - properties:
                 openshiftCluster:
                   enum:
-                    - apps.cluster-rw97m.sandbox266.opentlc.com
+                    - apps.cluster-tmjrv.tmjrv.sandbox2009.opentlc.com
                 image_host:
                   title: Image Host
                   type: string
                   description: Host for storing image
                   enum: 
-                    - quay-rw97m.apps.cluster-rw97m.sandbox266.opentlc.com
-                  default: quay-rw97m.apps.cluster-rw97m.sandbox266.opentlc.com
+                    - quay.apps.cluster-tmjrv.tmjrv.sandbox2009.opentlc.com
+                  default: quay.apps.cluster-tmjrv.tmjrv.sandbox2009.opentlc.com
                 image_organization:
                   title: Organization
                   type: string
