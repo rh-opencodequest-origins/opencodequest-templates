@@ -30,16 +30,16 @@ spec:
         targetPath: ./source
         values:
           git_host: "gitlab-gitlab.${{ '{{' }} parameters.openshiftCluster {{ '}}' }}"
-          gitlabGroup: "${{ '{{' }} user.entity.metadata.name {{ '}}' }}"
+          gitlabGroup: "${{ '{{' }} user.entity.spec.memberOf[0] {{ '}}' }}"
           repoName: fight-ui
-          owner: "${{ '{{' }} user.entity.metadata.name {{ '}}' }}"
+          owner: "${{ '{{' }} user.entity.spec.memberOf[0] {{ '}}' }}"
           cluster_id: ".${{ '{{' }} parameters.openshiftCluster {{ '}}' }}"
-          namespace: "${{ '{{' }} user.entity.metadata.name {{ '}}' }}-workshop-dev"
+          namespace: "${{ '{{' }} user.entity.spec.memberOf[0] {{ '}}' }}-workshop-dev"
           component_id: fight-ui
-          system: "${{ '{{' }} user.entity.metadata.name {{ '}}' }}-workshop"
-          user: "${{ '{{' }} user.entity.metadata.name {{ '}}' }}"
+          system: "${{ '{{' }} user.entity.spec.memberOf[0] {{ '}}' }}-workshop"
+          user: "${{ '{{' }} user.entity.spec.memberOf[0] {{ '}}' }}"
           host: "gitlab-gitlab.${{ '{{' }} parameters.openshiftCluster {{ '}}' }}"
-          destination: "${{ '{{' }} user.entity.metadata.name {{ '}}' }}/fight-ui"
+          destination: "${{ '{{' }} user.entity.spec.memberOf[0] {{ '}}' }}/fight-ui"
 
     - id: publishSource
       name: Publishing to Source Code Repository
@@ -47,7 +47,7 @@ spec:
       input:
         sourcePath: ./source
         description: "fight-ui sources"
-        repoUrl: "gitlab-gitlab.${{ '{{' }} parameters.openshiftCluster {{ '}}' }}?owner=${{ '{{' }} user.entity.metadata.name {{ '}}' }}&repo=fight-ui"
+        repoUrl: "gitlab-gitlab.${{ '{{' }} parameters.openshiftCluster {{ '}}' }}?owner=${{ '{{' }} user.entity.spec.memberOf[0] {{ '}}' }}&repo=fight-ui"
         defaultBranch: main
         protectDefaultBranch: false
         repoVisibility: public
@@ -69,25 +69,25 @@ spec:
           git_host: "gitlab-gitlab.${{ '{{' }} parameters.openshiftCluster {{ '}}' }}"
           component_id: fight-ui
           description: "fight-ui sources"
-          destination: "https://gitlab-gitlab.${{ '{{' }} parameters.openshiftCluster {{ '}}' }}/${{ '{{' }} user.entity.metadata.name {{ '}}' }}/fight-ui-gitops.git"
-          source_repository: "https://gitlab-gitlab.${{ '{{' }} parameters.openshiftCluster {{ '}}' }}/${{ '{{' }} user.entity.metadata.name {{ '}}' }}/fight-ui.git"
+          destination: "https://gitlab-gitlab.${{ '{{' }} parameters.openshiftCluster {{ '}}' }}/${{ '{{' }} user.entity.spec.memberOf[0] {{ '}}' }}/fight-ui-gitops.git"
+          source_repository: "https://gitlab-gitlab.${{ '{{' }} parameters.openshiftCluster {{ '}}' }}/${{ '{{' }} user.entity.spec.memberOf[0] {{ '}}' }}/fight-ui.git"
           repository_name: fight-ui
-          git_owner: "${{ '{{' }} user.entity.metadata.name {{ '}}' }}"
+          git_owner: "${{ '{{' }} user.entity.spec.memberOf[0] {{ '}}' }}"
           cluster: ".${{ '{{' }} parameters.openshiftCluster {{ '}}' }}"
-          namespace: "${{ '{{' }} user.entity.metadata.name {{ '}}' }}-workshop-dev"
+          namespace: "${{ '{{' }} user.entity.spec.memberOf[0] {{ '}}' }}-workshop-dev"
           image_host: ghcr.io
           image_name: /cescoffier/quarkus-openshift-workshop-fight-ui
           image_tag: main
-          user: "${{ '{{' }} user.entity.metadata.name {{ '}}' }}"
+          user: "${{ '{{' }} user.entity.spec.memberOf[0] {{ '}}' }}"
         targetPath: ./tenant-gitops
   
     - id: publishGitops
       name: Publishing to Deployment Resource Repository
       action: publish:gitlab
       input:
-        repoUrl: "gitlab-gitlab.${{ '{{' }} parameters.openshiftCluster {{ '}}' }}?owner=${{ '{{' }} user.entity.metadata.name {{ '}}' }}&repo=fight-ui-gitops"
-        title: "gitops resources for ${{ '{{' }} user.entity.metadata.name {{ '}}' }}-fight-ui"
-        description: "gitops resources for ${{ '{{' }} user.entity.metadata.name {{ '}}' }}-fight-ui"
+        repoUrl: "gitlab-gitlab.${{ '{{' }} parameters.openshiftCluster {{ '}}' }}?owner=${{ '{{' }} user.entity.spec.memberOf[0] {{ '}}' }}&repo=fight-ui-gitops"
+        title: "gitops resources for ${{ '{{' }} user.entity.spec.memberOf[0] {{ '}}' }}-fight-ui"
+        description: "gitops resources for ${{ '{{' }} user.entity.spec.memberOf[0] {{ '}}' }}-fight-ui"
         sourcePath: ./tenant-gitops
         defaultBranch: main
         protectDefaultBranch: false
@@ -97,10 +97,10 @@ spec:
       name: Create ArgoCD Resources
       action: argocd:create-resources
       input:
-        appName: "${{ '{{' }} user.entity.metadata.name {{ '}}' }}-fight-ui-bootstrap"
+        appName: "${{ '{{' }} user.entity.spec.memberOf[0] {{ '}}' }}-fight-ui-bootstrap"
         argoInstance: main
         namespace: rhdh-gitops
-        repoUrl: "https://gitlab-gitlab.${{ '{{' }} parameters.openshiftCluster {{ '}}' }}/${{ '{{' }} user.entity.metadata.name {{ '}}' }}/fight-ui-gitops.git"
+        repoUrl: "https://gitlab-gitlab.${{ '{{' }} parameters.openshiftCluster {{ '}}' }}/${{ '{{' }} user.entity.spec.memberOf[0] {{ '}}' }}/fight-ui-gitops.git"
         path: 'argocd/'
 
   output:
