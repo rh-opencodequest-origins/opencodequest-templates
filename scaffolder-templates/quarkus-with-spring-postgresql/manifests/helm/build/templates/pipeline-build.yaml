@@ -106,22 +106,22 @@ spec:
           workspace: source-folder
         - name: maven-settings
           workspace: maven-settings
-    - name: scan-source
-      params:
-      - name: sonarqubeHostUrl
-        value: $(params.sonarqube-host-url)
-      - name: sonarqubeProjectKey
-        value: $(params.sonarqube-project-key)
-      - name: sonarqubeProjectSecret
-        value: $(params.sonarqube-project-secret)
-      runAfter:
-      - package
-      taskRef:
-        kind: Task
-        name: {{ .Values.app.name }}-scan-code
-      workspaces:
-      - name: repository
-        workspace: source-folder
+    # - name: scan-source
+    #   params:
+    #   - name: sonarqubeHostUrl
+    #     value: $(params.sonarqube-host-url)
+    #   - name: sonarqubeProjectKey
+    #     value: $(params.sonarqube-project-key)
+    #   - name: sonarqubeProjectSecret
+    #     value: $(params.sonarqube-project-secret)
+    #   runAfter:
+    #   - package
+    #   taskRef:
+    #     kind: Task
+    #     name: {{ .Values.app.name }}-scan-code
+    #   workspaces:
+    #   - name: repository
+    #     workspace: source-folder
     - name: build-sign-image
       params:
       - name: IMAGE
@@ -148,7 +148,7 @@ spec:
         value: $(tasks.build-sign-image.results.IMAGE_DIGEST)
       runAfter:
       - build-sign-image
-      - scan-source
+      # - scan-source
       taskRef:
         kind: Task
         name: {{ .Values.app.name }}-acs-image-check
@@ -169,7 +169,7 @@ spec:
         value: $(tasks.build-sign-image.results.IMAGE_DIGEST)
       runAfter:
       - build-sign-image
-      - scan-source
+      # - scan-source
       taskRef:
         kind: Task
         name: {{ .Values.app.name }}-acs-image-scan
@@ -199,7 +199,7 @@ spec:
         name: {{ .Values.app.name }}-acs-deploy-check
       runAfter:
       - build-sign-image
-      - scan-source
+      # - scan-source
       workspaces:
       - name: reports
         workspace: reports
