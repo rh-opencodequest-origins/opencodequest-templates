@@ -14,7 +14,7 @@ spec:
       description: reference of the image that will get created
       default: ${{ values.imageRepository }}/${{ values.imageUrl }}/${{ values.repoName }}
   resourcetemplates:
-    - apiVersion: tekton.dev/v1beta1
+    - apiVersion: tekton.dev/v1
       kind: PipelineRun
       metadata:
         name: ${{ values.repoName }}-pipeline-$(uid)

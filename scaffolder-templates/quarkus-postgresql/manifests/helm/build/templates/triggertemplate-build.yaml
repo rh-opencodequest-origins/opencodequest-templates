@@ -16,7 +16,7 @@ spec:
     - name: git-committer
       description: Email of user who committed the change
   resourcetemplates:
-    - apiVersion: tekton.dev/v1beta1
+    - apiVersion: tekton.dev/v1
       kind: PipelineRun
       metadata:
         generateName: {{ .Values.app.name }}-run-build-

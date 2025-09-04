@@ -1,5 +1,5 @@
 ---
-apiVersion: tekton.dev/v1beta1
+apiVersion: tekton.dev/v1
 kind: Pipeline
 metadata:
   name: {{ .Values.app.name }}-promote
@@ -60,7 +60,7 @@ spec:
         - name: TUF_MIRROR
           value: '$(params.tuf_mirror)'
       taskRef:
-        apiVersion: tekton.dev/v1beta1
+        apiVersion: tekton.dev/v1
         kind: Task
         name: verify-enterprise-contract
     - name: quay-tag-promote
@@ -74,7 +74,7 @@ spec:
         - name: destTLSverify
           value: 'false'
       taskRef:
-        apiVersion: tekton.dev/v1beta1
+        apiVersion: tekton.dev/v1
         kind: ClusterTask
         name: skopeo-copy
       runAfter:
@@ -99,7 +99,7 @@ spec:
         - name: argocd-host
           value:  $(params.argocd-host)
       taskRef:
-        apiVersion: tekton.dev/v1beta1
+        apiVersion: tekton.dev/v1
         kind: Task
         name: update-deployment
       runAfter:
@@ -116,7 +116,7 @@ spec:
         - name: destTLSverify
           value: 'false'
       taskRef:
-        apiVersion: tekton.dev/v1beta1
+        apiVersion: tekton.dev/v1
         kind: ClusterTask
         name: skopeo-copy
       workspaces:
@@ -133,7 +133,7 @@ spec:
         - name: destTLSverify
           value: 'false'
       taskRef:
-        apiVersion: tekton.dev/v1beta1
+        apiVersion: tekton.dev/v1
         kind: ClusterTask
         name: skopeo-copy
       runAfter:

@@ -1,5 +1,5 @@
 ---
-apiVersion: tekton.dev/v1beta1
+apiVersion: tekton.dev/v1
 kind: Pipeline
 metadata:
   name: {{ .Values.app.name }}-build
@@ -58,7 +58,7 @@ spec:
         - name: revision
           value: $(params.source-branch)
       taskRef:
-        apiVersion: tekton.dev/v1beta1
+        apiVersion: tekton.dev/v1
         kind: ClusterTask
         name: git-clone
       workspaces:
@@ -78,7 +78,7 @@ spec:
       runAfter:
         - git-clone
       taskRef:
-        apiVersion: tekton.dev/v1beta1
+        apiVersion: tekton.dev/v1
         kind: Task
         name: verify-commit
       workspaces:
@@ -102,7 +102,7 @@ spec:
 {{- end }}
       taskRef:
         kind: ClusterTask
-        apiVersion: tekton.dev/v1beta1
+        apiVersion: tekton.dev/v1
         name: maven
       workspaces:
         - name: source
@@ -120,7 +120,7 @@ spec:
     #   runAfter:
     #   - package
     #   taskRef:
-    #     apiVersion: tekton.dev/v1beta1
+    #     apiVersion: tekton.dev/v1
     #     kind: Task
     #     name: scan-code
     #   workspaces:
@@ -133,7 +133,7 @@ spec:
       runAfter:
       - package
       taskRef:
-        apiVersion: tekton.dev/v1beta1
+        apiVersion: tekton.dev/v1
         kind: Task
         name: buildah
       workspaces:
@@ -155,7 +155,7 @@ spec:
       - build-sign-image
       # - scan-source
       taskRef:
-        apiVersion: tekton.dev/v1beta1
+        apiVersion: tekton.dev/v1
         kind: Task
         name: acs-image-check
       workspaces:
@@ -177,7 +177,7 @@ spec:
       - build-sign-image
       # - scan-source
       taskRef:
-        apiVersion: tekton.dev/v1beta1
+        apiVersion: tekton.dev/v1
         kind: Task
         name: acs-image-scan
       workspaces:
@@ -202,7 +202,7 @@ spec:
       - name: insecure-skip-tls-verify
         value: "true"
       taskRef:
-        apiVersion: tekton.dev/v1beta1
+        apiVersion: tekton.dev/v1
         kind: Task
         name: acs-deploy-check
       runAfter:
@@ -222,7 +222,7 @@ spec:
       - acs-image-scan
       - acs-deploy-check
       taskRef:
-        apiVersion: tekton.dev/v1beta1
+        apiVersion: tekton.dev/v1
         kind: Task
         name: scan-export-sbom
       workspaces:
@@ -235,7 +235,7 @@ spec:
       - name: rekorUrl
         value: $(params.rekor-url)
       taskRef:
-        apiVersion: tekton.dev/v1beta1
+        apiVersion: tekton.dev/v1
         kind: Task
         name: rekor-signed-provenance
       runAfter:
@@ -250,7 +250,7 @@ spec:
       - scan-export-sbom
       - query-rekor-signed-provenance
       taskRef:
-        apiVersion: tekton.dev/v1beta1
+        apiVersion: tekton.dev/v1
         kind: Task
         name: resync
   results:

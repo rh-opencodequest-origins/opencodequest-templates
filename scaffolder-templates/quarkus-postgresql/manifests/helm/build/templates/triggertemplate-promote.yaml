@@ -18,7 +18,7 @@ spec:
     - name: namespace
       description: The target namespace being deployed to
   resourcetemplates:
-    - apiVersion: tekton.dev/v1beta1
+    - apiVersion: tekton.dev/v1
       kind: PipelineRun
       metadata:
         generateName: {{ .Values.app.name }}-run-promote-
