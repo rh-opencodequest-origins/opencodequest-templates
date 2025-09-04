@@ -58,9 +58,14 @@ spec:
         - name: revision
           value: $(params.source-branch)
       taskRef:
-        apiVersion: tekton.dev/v1
-        kind: ClusterTask
-        name: git-clone
+        resolver: cluster
+        params:
+          - name: kind
+            value: task
+          - name: name
+            value: git-clone
+          - name: namespace
+            value: openshift-pipelines 
       workspaces:
         - name: output
           workspace: source-folder
@@ -101,9 +106,14 @@ spec:
         - git-clone
 {{- end }}
       taskRef:
-        kind: ClusterTask
-        apiVersion: tekton.dev/v1
-        name: maven
+        resolver: cluster
+        params:
+          - name: kind
+            value: task
+          - name: name
+            value: maven
+          - name: namespace
+            value: openshift-pipelines 
       workspaces:
         - name: source
           workspace: source-folder

@@ -73,8 +73,14 @@ spec:
         - name: destTLSverify
           value: 'false'
       taskRef:
-        kind: ClusterTask
-        name: skopeo-copy
+        resolver: cluster
+        params:
+          - name: kind
+            value: task
+          - name: name
+            value: skopeo-copy
+          - name: namespace
+            value: openshift-pipelines 
       runAfter:
         - verify-enterprise-contract
       workspaces:
@@ -113,8 +119,14 @@ spec:
         - name: destTLSverify
           value: 'false'
       taskRef:
-        kind: ClusterTask
-        name: skopeo-copy
+        resolver: cluster
+        params:
+          - name: kind
+            value: task
+          - name: name
+            value: skopeo-copy
+          - name: namespace
+            value: openshift-pipelines 
       workspaces:
         - name: images-url
           workspace: images-url
@@ -129,8 +141,14 @@ spec:
         - name: destTLSverify
           value: 'false'
       taskRef:
-        kind: ClusterTask
-        name: skopeo-copy
+        resolver: cluster
+        params:
+          - name: kind
+            value: task
+          - name: name
+            value: skopeo-copy
+          - name: namespace
+            value: openshift-pipelines
       runAfter:
         - copy-image-tag
       workspaces:
