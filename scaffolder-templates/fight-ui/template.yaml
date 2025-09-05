@@ -36,7 +36,7 @@ spec:
           cluster_id: ".${{ '{{' }} parameters.openshiftCluster {{ '}}' }}"
           namespace: "${{ '{{' }} user.entity.spec.memberOf[0] {{ '}}' }}-workshop-dev"
           component_id: fight-ui
-          system: "${{ '{{' }} user.entity.spec.memberOf[0] {{ '}}' }}-workshop"
+          system: "opencodequest-${{ '{{' }} user.entity.spec.memberOf[0] {{ '}}' }}"
           user: "${{ '{{' }} user.entity.spec.memberOf[0] {{ '}}' }}"
           host: "gitlab-gitlab.${{ '{{' }} parameters.openshiftCluster {{ '}}' }}"
           destination: "${{ '{{' }} user.entity.spec.memberOf[0] {{ '}}' }}/fight-ui"

@@ -140,7 +140,7 @@ spec:
           port: 8080
           verify_commits: "${{ '{{' }} parameters.repo.verify_commits {{ '}}' }}"
           api_endpoint: "${{ '{{' }} parameters.api_endpoint {{ '}}' }}"
-          system: "${{ '{{' }} user.entity.spec.memberOf[0] {{ '}}' }}-workshop"
+          system: "opencodequest-${{ '{{' }} user.entity.spec.memberOf[0] {{ '}}' }}"
           user: "${{ '{{' }} user.entity.spec.memberOf[0] {{ '}}' }}"
 
     - id: publish

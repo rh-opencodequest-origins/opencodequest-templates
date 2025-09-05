@@ -1,15 +1,4 @@
 apiVersion: backstage.io/v1alpha1
-kind: System
-metadata:
-  name: ${{values.system}}
-  tags:
-    - java
-    - quarkus
-    - superheroes
-spec:
-  owner: ${{values.owner | dump}}
----
-apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
   name: ${{ values.owner }}-${{ values.component_id }}
