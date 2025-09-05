@@ -83,8 +83,6 @@ spec:
       runAfter:
         - git-clone
       taskRef:
-        apiVersion: tekton.dev/v1
-        kind: Task
         name: verify-commit
       workspaces:
         - name: repository
@@ -117,7 +115,7 @@ spec:
       workspaces:
         - name: source
           workspace: source-folder
-        - name: maven-settings
+        - name: maven_settings
           workspace: maven-settings
     # - name: scan-source
     #   params:
@@ -130,8 +128,6 @@ spec:
     #   runAfter:
     #   - package
     #   taskRef:
-    #     apiVersion: tekton.dev/v1
-    #     kind: Task
     #     name: scan-code
     #   workspaces:
     #   - name: repository
@@ -143,8 +139,6 @@ spec:
       runAfter:
       - package
       taskRef:
-        apiVersion: tekton.dev/v1
-        kind: Task
         name: buildah
       workspaces:
       - name: source
@@ -165,8 +159,6 @@ spec:
       - build-sign-image
       # - scan-source
       taskRef:
-        apiVersion: tekton.dev/v1
-        kind: Task
         name: acs-image-check
       workspaces:
       - name: reports
@@ -187,8 +179,6 @@ spec:
       - build-sign-image
       # - scan-source
       taskRef:
-        apiVersion: tekton.dev/v1
-        kind: Task
         name: acs-image-scan
       workspaces:
       - name: reports
@@ -212,8 +202,6 @@ spec:
       - name: insecure-skip-tls-verify
         value: "true"
       taskRef:
-        apiVersion: tekton.dev/v1
-        kind: Task
         name: acs-deploy-check
       runAfter:
       - build-sign-image
@@ -232,8 +220,6 @@ spec:
       - acs-image-scan
       - acs-deploy-check
       taskRef:
-        apiVersion: tekton.dev/v1
-        kind: Task
         name: scan-export-sbom
       workspaces:
       - name: repository
@@ -245,8 +231,6 @@ spec:
       - name: rekorUrl
         value: $(params.rekor-url)
       taskRef:
-        apiVersion: tekton.dev/v1
-        kind: Task
         name: rekor-signed-provenance
       runAfter:
       - acs-image-check
@@ -260,8 +244,6 @@ spec:
       - scan-export-sbom
       - query-rekor-signed-provenance
       taskRef:
-        apiVersion: tekton.dev/v1
-        kind: Task
         name: resync
   results:
     - name: IMAGE_URL
@@ -269,9 +251,9 @@ spec:
     - name: IMAGE_DIGEST
       value: "$(tasks.build-sign-image.results.IMAGE_DIGEST)"
     - name: CHAINS-GIT_URL
-      value: "$(tasks.git-clone.results.url)"
+      value: "$(tasks.git-clone.results.URL)"
     - name: CHAINS-GIT_COMMIT
-      value: "$(tasks.git-clone.results.commit)"
+      value: "$(tasks.git-clone.results.COMMIT)"
     - name: ACS_SCAN_OUTPUT
       value: "$(tasks.acs-image-scan.results.SCAN_OUTPUT)"
   workspaces:
