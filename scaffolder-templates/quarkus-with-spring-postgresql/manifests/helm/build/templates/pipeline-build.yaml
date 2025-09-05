@@ -53,9 +53,9 @@ spec:
   tasks:
     - name: git-clone
       params:
-        - name: url
+        - name: URL
           value: $(params.source-repo)
-        - name: revision
+        - name: REVISION
           value: $(params.source-branch)
       taskRef:
         resolver: cluster
@@ -93,8 +93,8 @@ spec:
 {{- else }}
     - name: package
       params:
-      - name: MAVEN_IMAGE
-        value: 'registry.redhat.io/ubi8/openjdk-21@sha256:64819651733c6e8cca1032a3d7ff93f9f557b01d7275d0b8bb430e780fc24df7'
+      # - name: MAVEN_IMAGE
+      #   value: 'registry.redhat.io/ubi8/openjdk-21@sha256:64819651733c6e8cca1032a3d7ff93f9f557b01d7275d0b8bb430e780fc24df7'
       - name: GOALS
         value:
           - -DskipTests
@@ -104,14 +104,7 @@ spec:
         - git-clone
 {{- end }}
       taskRef:
-        resolver: cluster
-        params:
-          - name: kind
-            value: task
-          - name: name
-            value: maven
-          - name: namespace
-            value: openshift-pipelines 
+        name: {{ .Values.app.name }}-maven-java21
       workspaces:
         - name: source
           workspace: source-folder
