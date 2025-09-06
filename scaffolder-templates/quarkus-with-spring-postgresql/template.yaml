@@ -24,7 +24,6 @@ spec:
           title: OpenShift Clusters
           type: string
           enum:
-            # - apps.cluster-gbsk4.gbsk4.sandbox156.opentlc.com
             - {{ cluster_subdomain }}
       dependencies:
         openshiftCluster:
