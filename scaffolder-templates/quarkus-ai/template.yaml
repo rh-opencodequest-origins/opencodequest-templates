@@ -60,6 +60,7 @@ spec:
         - api_endpoint
         - group_id
         - artifact_id
+        - system
       properties:
         component_id:
           title: Name
@@ -68,6 +69,16 @@ spec:
           default: fight
           ui:field: EntityNamePicker
           maxLength: 23
+        system:
+          title: System
+          type: string
+          description: Select the System in which depends your service
+          ui:field: EntityPicker
+          ui:options:
+            catalogFilter:
+              kind: System
+            defaultKind: System
+          ui:help: 'Choose from existing systems in your organization'
         group_id:
           title: Group Id
           type: string
@@ -142,7 +153,7 @@ spec:
           port: 8080
           verify_commits: "${{ '{{' }} parameters.repo.verify_commits {{ '}}' }}"
           api_endpoint: "${{ '{{' }} parameters.api_endpoint {{ '}}' }}"
-          system: "opencodequest-${{ '{{' }} user.entity.spec.memberOf[0] {{ '}}' }}"
+          system: "${{ '{{' }} parameters.system {{ '}}' }}"
           user: "${{ '{{' }} user.entity.spec.memberOf[0] {{ '}}' }}"
 
     - id: publish

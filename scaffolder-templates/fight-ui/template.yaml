@@ -20,6 +20,20 @@ spec:
           type: string
           enum:
             - {{ cluster_subdomain }}
+    - title: Provide Information for Application
+      required:
+        - system
+      properties:
+        system:
+          title: System
+          type: string
+          description: Select the System in which depends your service
+          ui:field: EntityPicker
+          ui:options:
+            catalogFilter:
+              kind: System
+            defaultKind: System
+          ui:help: 'Choose from existing systems in your organization'
 
   steps:
     - id: templateSource
@@ -36,7 +50,7 @@ spec:
           cluster_id: ".${{ '{{' }} parameters.openshiftCluster {{ '}}' }}"
           namespace: "${{ '{{' }} user.entity.spec.memberOf[0] {{ '}}' }}-workshop-dev"
           component_id: fight-ui
-          system: "opencodequest-${{ '{{' }} user.entity.spec.memberOf[0] {{ '}}' }}"
+          system: "${{ '{{' }} parameters.system {{ '}}' }}"
           user: "${{ '{{' }} user.entity.spec.memberOf[0] {{ '}}' }}"
           host: "gitlab-gitlab.${{ '{{' }} parameters.openshiftCluster {{ '}}' }}"
           destination: "${{ '{{' }} user.entity.spec.memberOf[0] {{ '}}' }}/fight-ui"
