@@ -23,6 +23,7 @@ spec:
     - title: Provide Information for Application
       required:
         - system
+        - owner_group
       properties:
         system:
           title: System
@@ -34,6 +35,17 @@ spec:
               kind: System
             defaultKind: System
           ui:help: 'Choose from existing systems in your organization'
+        owner_group:
+          title: Owner Group
+          type: string
+          description: Select the group that will own this service
+          ui:field: EntityPicker
+          ui:options:
+            catalogFilter:
+              kind: Group
+            defaultKind: Group
+            defaultEntityRef: ${{ user.entity.spec.memberOf[0] }}
+          ui:help: 'Choose from existing groups in your organization'
 
   steps:
     - id: templateSource
@@ -51,7 +63,7 @@ spec:
           namespace: "${{ '{{' }} user.entity.spec.memberOf[0] {{ '}}' }}-workshop-dev"
           component_id: fight-ui
           system: "${{ '{{' }} parameters.system {{ '}}' }}"
-          user: "${{ '{{' }} user.entity.spec.memberOf[0] {{ '}}' }}"
+          user: "${{ '{{' }} parameters.owner_group {{ '}}' }}"
           host: "gitlab-gitlab.${{ '{{' }} parameters.openshiftCluster {{ '}}' }}"
           destination: "${{ '{{' }} user.entity.spec.memberOf[0] {{ '}}' }}/fight-ui"
 
