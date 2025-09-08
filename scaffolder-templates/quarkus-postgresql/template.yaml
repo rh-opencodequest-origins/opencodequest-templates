@@ -13,7 +13,8 @@ spec:
   owner: rhdh
   type: service
   parameters:
-    - title: Provide information about the OpenShift cluster
+  # -- update title below ---- 
+    - title: Prompt me something
       required:
         - openshiftCluster
         - image_host
@@ -21,7 +22,7 @@ spec:
         - image_tag
       properties:
         openshiftCluster:
-          title: OpenShift Clusters
+          title: OpenShift Cluster Version
           type: string
           enum:
             - {{ cluster_subdomain }}
@@ -164,20 +165,24 @@ spec:
           api_endpoint: "${{ '{{' }} parameters.api_endpoint {{ '}}' }}"
           system: "${{ '{{' }} parameters.system {{ '}}' }}"
           user: "${{ '{{' }} parameters.owner_group {{ '}}' }}"
+ # ------ Gitlab Steps 
 
-    - id: publish
-      name: Publish
-      action: publish:gitlab
-      input:
-        repoUrl: "${{ '{{' }} parameters.repo.host {{ '}}' }}.${{ '{{' }} parameters.openshiftCluster {{ '}}' }}?owner=${{ '{{' }} user.entity.spec.memberOf[0] {{ '}}' }}&repo=${{ '{{' }} parameters.component_id {{ '}}' }}"
-        repoVisibility: public
+    # - id: publish
+    #   name: Publish
+    #   action: publish:gitlab
+    #   input:
+    #     repoUrl: "${{ '{{' }} parameters.repo.host {{ '}}' }}.${{ '{{' }} parameters.openshiftCluster {{ '}}' }}?owner=${{ '{{' }} user.entity.spec.memberOf[0] {{ '}}' }}&repo=${{ '{{' }} parameters.component_id {{ '}}' }}"
+    #     repoVisibility: public
 
-    - id: register
-      name: Register
-      action: catalog:register
-      input:
-        repoContentsUrl: "${{ '{{' }} steps.publish.output.repoContentsUrl {{ '}}' }}"
-        catalogInfoPath: "/catalog-info.yaml"
+    
+ # ------ Register catalog steps Steps 
+
+    # - id: register
+    #   name: Register
+    #   action: catalog:register
+    #   input:
+    #     repoContentsUrl: "${{ '{{' }} steps.publish.output.repoContentsUrl {{ '}}' }}"
+    #     catalogInfoPath: "/catalog-info.yaml"
 
     - id: template-gitops-deployment
       name: Generating Deployment Resources
