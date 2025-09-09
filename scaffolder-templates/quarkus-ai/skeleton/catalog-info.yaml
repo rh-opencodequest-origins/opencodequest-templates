@@ -6,7 +6,7 @@ metadata:
   description: ${{values.description | dump}}
   {%- endif %}
   annotations:
-    argocd/app-selector: argocd.argoproj.io/instance=${{values.user}}-${{values.component_id}}-bootstrap
+    # argocd/app-selector: argocd.argoproj.io/instance=${{values.user}}-${{values.component_id}}-bootstrap
     backstage.io/kubernetes-id: ${{values.user}}-${{values.component_id}}
     janus-idp.io/tekton: ${{values.user}}-${{values.component_id}}
     backstage.io/source-location: url:https://${{values.host}}/${{values.destination}}
@@ -24,9 +24,6 @@ metadata:
     - url: https://console-openshift-console${{values.cluster}}/topology/ns/${{values.namespace}}?view=graph
       title: Console OpenShift
       icon: web
-    # - url: https://devspaces${{values.cluster}}/#https://${{values.host}}/${{values.destination}}?che-editor=che-incubator/che-idea/latest
-    #   title: OpenShift Dev Spaces (JetBrains IntelliJ)
-    #   icon: web
 spec:
   type: service
   lifecycle: production
