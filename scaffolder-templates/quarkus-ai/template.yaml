@@ -15,7 +15,9 @@ spec:
   owner: {{ group }}
   type: service
   parameters:
-    - title: Provide information about the OpenShift cluster
+  # -- update title below ---- 
+    - title: Prompt me something
+    # - title: Provide information about the OpenShift cluster
       required:
         - openshiftCluster
         - image_host
@@ -23,7 +25,7 @@ spec:
         - image_tag
       properties:
         openshiftCluster:
-          title: OpenShift Clusters
+          title: OpenShift Cluster
           type: string
           enum:
             - {{ cluster_subdomain }}
@@ -139,7 +141,6 @@ spec:
                 - disabled
 
   steps:
-
     - id: template
       name: Fetch Skeleton + Template
       action: fetch:template
@@ -166,19 +167,24 @@ spec:
           system: "${{ '{{' }} parameters.system {{ '}}' }}"
           user: "${{ '{{' }} parameters.owner_group | parseEntityRef | pick('name') {{ '}}' }}"
 
-    - id: publish
-      name: Publish
-      action: publish:gitlab
-      input:
-        repoUrl: "${{ '{{' }} parameters.repo.host {{ '}}' }}.${{ '{{' }} parameters.openshiftCluster {{ '}}' }}?owner=${{ '{{' }} user.entity.spec.memberOf[0] {{ '}}' }}&repo=${{ '{{' }} parameters.component_id {{ '}}' }}"
-        repoVisibility: public
+# ------ Gitlab Steps
 
-    - id: register
-      name: Register
-      action: catalog:register
-      input:
-        repoContentsUrl: "${{ '{{' }} steps.publish.output.repoContentsUrl {{ '}}' }}"
-        catalogInfoPath: "/catalog-info.yaml"
+    # - id: publish
+    #   name: Publish
+    #   action: publish:gitlab
+    #   input:
+    #     repoUrl: "${{ '{{' }} parameters.repo.host {{ '}}' }}.${{ '{{' }} parameters.openshiftCluster {{ '}}' }}?owner=${{ '{{' }} user.entity.spec.memberOf[0] {{ '}}' }}&repo=${{ '{{' }} parameters.component_id {{ '}}' }}"
+    #     repoVisibility: public
+
+
+ # ------ Register catalog steps Steps 
+
+    # - id: register
+    #   name: Register
+    #   action: catalog:register
+    #   input:
+    #     repoContentsUrl: "${{ '{{' }} steps.publish.output.repoContentsUrl {{ '}}' }}"
+    #     catalogInfoPath: "/catalog-info.yaml"
 
     - id: template-gitops-deployment
       name: Generating Deployment Resources
@@ -207,28 +213,33 @@ spec:
           verify_commits: "${{ '{{' }} parameters.repo.verify_commits {{ '}}' }}"
         targetPath: ./tenant-gitops
 
-    - id: publish-gitops
-      name: Publishing to Resource Repository
-      action: publish:gitlab
-      input:
-        repoUrl: "${{ '{{' }} parameters.repo.host {{ '}}' }}.${{ '{{' }} parameters.openshiftCluster {{ '}}' }}?owner=${{ '{{' }} user.entity.spec.memberOf[0] {{ '}}' }}&repo=${{ '{{' }} parameters.component_id {{ '}}' }}-gitops"
-        title: "gitops resources for ${{ '{{' }} parameters.component_id {{ '}}' }}"
-        description: "gitops resources for ${{ '{{' }} parameters.component_id {{ '}}' }}"
-        sourcePath: ./tenant-gitops
-        repoVisibility: public
-        branches:
-        - name: master
-          protected: false
 
-    - id: create-argocd-resources
-      name: Create ArgoCD Resources
-      action: argocd:create-resources
-      input:
-        appName: "${{ '{{' }} user.entity.spec.memberOf[0] {{ '}}' }}-${{ '{{' }} parameters.component_id {{ '}}' }}-bootstrap"
-        argoInstance: main
-        namespace: rhdh-gitops
-        repoUrl: "https://${{ '{{' }} parameters.repo.host {{ '}}' }}.${{ '{{' }} parameters.openshiftCluster {{ '}}' }}/${{ '{{' }} user.entity.spec.memberOf[0] {{ '}}' }}/${{ '{{' }} parameters.component_id {{ '}}' }}-gitops.git"
-        path: 'argocd/'
+ # ------ publish gitops resources
+
+    # - id: publish-gitops
+    #   name: Publishing to Resource Repository
+    #   action: publish:gitlab
+    #   input:
+    #     repoUrl: "${{ '{{' }} parameters.repo.host {{ '}}' }}.${{ '{{' }} parameters.openshiftCluster {{ '}}' }}?owner=${{ '{{' }} user.entity.spec.memberOf[0] {{ '}}' }}&repo=${{ '{{' }} parameters.component_id {{ '}}' }}-gitops"
+    #     title: "gitops resources for ${{ '{{' }} parameters.component_id {{ '}}' }}"
+    #     description: "gitops resources for ${{ '{{' }} parameters.component_id {{ '}}' }}"
+    #     sourcePath: ./tenant-gitops
+    #     repoVisibility: public
+    #     branches:
+    #     - name: master
+    #       protected: false
+
+ # ------ create argoCD resources
+
+    # - id: create-argocd-resources
+    #   name: Create ArgoCD Resources
+    #   action: argocd:create-resources
+    #   input:
+    #     appName: "${{ '{{' }} user.entity.spec.memberOf[0] {{ '}}' }}-${{ '{{' }} parameters.component_id {{ '}}' }}-bootstrap"
+    #     argoInstance: main
+    #     namespace: rhdh-gitops
+    #     repoUrl: "https://${{ '{{' }} parameters.repo.host {{ '}}' }}.${{ '{{' }} parameters.openshiftCluster {{ '}}' }}/${{ '{{' }} user.entity.spec.memberOf[0] {{ '}}' }}/${{ '{{' }} parameters.component_id {{ '}}' }}-gitops.git"
+    #     path: 'argocd/'
 
   output:
     links:

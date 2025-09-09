@@ -15,6 +15,7 @@ spec:
   parameters:
   # -- update title below ---- 
     - title: Prompt me something
+    # - title: Provide information about the OpenShift cluster
       required:
         - openshiftCluster
         - image_host
@@ -22,7 +23,7 @@ spec:
         - image_tag
       properties:
         openshiftCluster:
-          title: OpenShift Cluster Version
+          title: OpenShift Cluster
           type: string
           enum:
             - {{ cluster_subdomain }}
@@ -163,7 +164,8 @@ spec:
           api_endpoint: "${{ '{{' }} parameters.api_endpoint {{ '}}' }}"
           system: "${{ '{{' }} parameters.system {{ '}}' }}"
           user: "${{ '{{' }} parameters.owner_group | parseEntityRef | pick('name') {{ '}}' }}"
- # ------ Gitlab Steps 
+
+# ------ Gitlab Steps
 
     # - id: publish
     #   name: Publish
@@ -172,7 +174,7 @@ spec:
     #     repoUrl: "${{ '{{' }} parameters.repo.host {{ '}}' }}.${{ '{{' }} parameters.openshiftCluster {{ '}}' }}?owner=${{ '{{' }} user.entity.spec.memberOf[0] {{ '}}' }}&repo=${{ '{{' }} parameters.component_id {{ '}}' }}"
     #     repoVisibility: public
 
-    
+
  # ------ Register catalog steps Steps 
 
     # - id: register
