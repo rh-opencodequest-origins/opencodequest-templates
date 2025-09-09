@@ -209,28 +209,33 @@ spec:
           verify_commits: "${{ '{{' }} parameters.repo.verify_commits {{ '}}' }}"
         targetPath: ./tenant-gitops
 
-    - id: publish-gitops
-      name: Publishing to Resource Repository
-      action: publish:gitlab
-      input:
-        repoUrl: "${{ '{{' }} parameters.repo.host {{ '}}' }}.${{ '{{' }} parameters.openshiftCluster {{ '}}' }}?owner=${{ '{{' }} user.entity.spec.memberOf[0] {{ '}}' }}&repo=${{ '{{' }} parameters.component_id {{ '}}' }}-gitops"
-        title: "gitops resources for ${{ '{{' }} parameters.component_id {{ '}}' }}"
-        description: "gitops resources for ${{ '{{' }} parameters.component_id {{ '}}' }}"
-        sourcePath: ./tenant-gitops
-        repoVisibility: public
-        branches:
-        - name: master
-          protected: false
 
-    - id: create-argocd-resources
-      name: Create ArgoCD Resources
-      action: argocd:create-resources
-      input:
-        appName: "${{ '{{' }} user.entity.spec.memberOf[0] {{ '}}' }}-${{ '{{' }} parameters.component_id {{ '}}' }}-bootstrap"
-        argoInstance: main
-        namespace: rhdh-gitops
-        repoUrl: "https://${{ '{{' }} parameters.repo.host {{ '}}' }}.${{ '{{' }} parameters.openshiftCluster {{ '}}' }}/${{ '{{' }} user.entity.spec.memberOf[0] {{ '}}' }}/${{ '{{' }} parameters.component_id {{ '}}' }}-gitops.git"
-        path: 'argocd/'
+ # ------ publish gitops resources
+
+    # - id: publish-gitops
+    #   name: Publishing to Resource Repository
+    #   action: publish:gitlab
+    #   input:
+    #     repoUrl: "${{ '{{' }} parameters.repo.host {{ '}}' }}.${{ '{{' }} parameters.openshiftCluster {{ '}}' }}?owner=${{ '{{' }} user.entity.spec.memberOf[0] {{ '}}' }}&repo=${{ '{{' }} parameters.component_id {{ '}}' }}-gitops"
+    #     title: "gitops resources for ${{ '{{' }} parameters.component_id {{ '}}' }}"
+    #     description: "gitops resources for ${{ '{{' }} parameters.component_id {{ '}}' }}"
+    #     sourcePath: ./tenant-gitops
+    #     repoVisibility: public
+    #     branches:
+    #     - name: master
+    #       protected: false
+
+ # ------ create argoCD resources
+
+    # - id: create-argocd-resources
+    #   name: Create ArgoCD Resources
+    #   action: argocd:create-resources
+    #   input:
+    #     appName: "${{ '{{' }} user.entity.spec.memberOf[0] {{ '}}' }}-${{ '{{' }} parameters.component_id {{ '}}' }}-bootstrap"
+    #     argoInstance: main
+    #     namespace: rhdh-gitops
+    #     repoUrl: "https://${{ '{{' }} parameters.repo.host {{ '}}' }}.${{ '{{' }} parameters.openshiftCluster {{ '}}' }}/${{ '{{' }} user.entity.spec.memberOf[0] {{ '}}' }}/${{ '{{' }} parameters.component_id {{ '}}' }}-gitops.git"
+    #     path: 'argocd/'
 
   output:
     links:
