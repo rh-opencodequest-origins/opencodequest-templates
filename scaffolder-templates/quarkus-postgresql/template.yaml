@@ -87,7 +87,6 @@ spec:
             catalogFilter:
               kind: Group
             defaultKind: Group
-            defaultEntityRef: "${{ '{{' }} user.entity.spec.memberOf[0] {{ '}}' }}"
           ui:help: 'Choose from existing groups in your organization'
         group_id:
           title: Group Id
@@ -163,7 +162,7 @@ spec:
           verify_commits: "${{ '{{' }} parameters.repo.verify_commits {{ '}}' }}"
           api_endpoint: "${{ '{{' }} parameters.api_endpoint {{ '}}' }}"
           system: "${{ '{{' }} parameters.system {{ '}}' }}"
-          user: "${{ '{{' }} parameters.owner_group {{ '}}' }}"
+          user: "${{ '{{' }} parameters.owner_group | parseEntityRef | pick('name') {{ '}}' }}"
  # ------ Gitlab Steps 
 
     # - id: publish
@@ -206,7 +205,7 @@ spec:
           port: 8080
           repository_host: "${{ '{{' }} parameters.repo.host {{ '}}' }}.${{ '{{' }} parameters.openshiftCluster {{ '}}' }}"
           deployment_name: "${{ '{{' }} parameters.component_id {{ '}}' }}"
-          user: "${{ '{{' }} user.entity.spec.memberOf[0] {{ '}}' }}"
+          user: "${{ '{{' }} parameters.owner_group | parseEntityRef | pick('name') {{ '}}' }}"
           verify_commits: "${{ '{{' }} parameters.repo.verify_commits {{ '}}' }}"
         targetPath: ./tenant-gitops
 
