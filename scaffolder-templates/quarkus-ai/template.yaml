@@ -12,7 +12,7 @@ metadata:
     - ai
     - intelligent
 spec:
-  owner: rhdh
+  owner: {{ ocp4_workload_platform_engineering_workshop_rhdh_groupname }}
   type: service
   parameters:
     - title: Provide information about the OpenShift cluster
@@ -88,7 +88,7 @@ spec:
             catalogFilter:
               kind: Group
             defaultKind: Group
-            defaultEntityRef: ${{ user.entity.spec.memberOf[0] }}
+            defaultEntityRef: "${{ '{{' }} user.entity.spec.memberOf[0] {{ '}}' }}"
           ui:help: 'Choose from existing groups in your organization'
         group_id:
           title: Group Id
