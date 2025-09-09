@@ -12,7 +12,7 @@ metadata:
     - ai
     - intelligent
 spec:
-  owner: {{ ocp4_workload_platform_engineering_workshop_rhdh_groupname }}
+  owner: {{ group }}
   type: service
   parameters:
     - title: Provide information about the OpenShift cluster

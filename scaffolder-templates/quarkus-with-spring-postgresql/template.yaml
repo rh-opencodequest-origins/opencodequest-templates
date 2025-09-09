@@ -10,7 +10,7 @@ metadata:
     - quarkus
     - opencodequest
 spec:
-  owner: rhdh
+  owner: {{ group }}
   type: service
   parameters:
     - title: Provide information about the OpenShift cluster

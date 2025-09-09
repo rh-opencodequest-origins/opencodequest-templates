@@ -10,7 +10,7 @@ metadata:
     - quarkus
     - opencodequest
 spec:
-  owner: {{ ocp4_workload_platform_engineering_workshop_rhdh_groupname }}
+  owner: {{ group }}
   type: service
   parameters:
   # -- update title below ---- 
@@ -139,7 +139,6 @@ spec:
                 - disabled
 
   steps:
-
     - id: template
       name: Fetch Skeleton + Template
       action: fetch:template
