@@ -51,6 +51,13 @@ spec:
                   default: latest
                   type: string
                   description: Build Image tag
+                stackrox_endpoint:
+                  title: ACS central host
+                  type: string
+                  description: Endpoint of the ACS Central
+                  default: {{ stackrox_endpoint }}
+                  enum: 
+                    - {{ stackrox_endpoint }}
 
     - title: Provide Information for Application
       required:
@@ -209,6 +216,7 @@ spec:
           deployment_name: "${{ '{{' }} parameters.component_id {{ '}}' }}"
           user: "${{ '{{' }} parameters.owner_group | parseEntityRef | pick('name') {{ '}}' }}"
           verify_commits: "${{ '{{' }} parameters.repo.verify_commits {{ '}}' }}"
+          stackrox_endpoint: "${{ '{{' }} parameters.stackrox_endpoint {{ '}}' }}"
         targetPath: ./tenant-gitops
 
 
