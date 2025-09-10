@@ -51,6 +51,11 @@ spec:
                   default: latest
                   type: string
                   description: Build Image tag
+                stackrox_central_host:
+                  title: ACS central host
+                  type: string
+                  description: Endpoint of the ACS Central
+                  default: {{ stackrox_endpoint }}
 
     - title: Provide Information for Application
       required:

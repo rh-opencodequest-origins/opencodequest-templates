@@ -5,6 +5,9 @@ app:
   namespace: ${{values.user}}-workshop-dev
   cluster: ${{ values.cluster }}
 
+stackrox:
+  endpoint: ${{ values.stackrox_endpoint }}
+
 git:
   branch: main
   repo: ${{ values.source_repository }}

@@ -39,7 +39,7 @@ spec:
           - name: cyclonedx-host-url
             value: https://cyclonedx-bom-repo-server-cyclonedx{{ .Values.app.cluster }}
           - name: stackrox-endpoint
-            value: central-stackrox{{ .Values.app.cluster }}:443
+            value: {{ .Values.stackrox.endpoint }}
           - name: stackrox-secret
             value: {{ .Values.app.name }}-stackrox-token
           - name: git-host
