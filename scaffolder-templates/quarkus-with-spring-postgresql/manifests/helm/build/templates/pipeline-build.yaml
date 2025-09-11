@@ -217,25 +217,25 @@ spec:
       workspaces:
       - name: repository
         workspace: source-folder
-    - name: query-rekor-signed-provenance
-      params:
-      - name: imageDigest
-        value: $(tasks.build-sign-image.results.IMAGE_DIGEST)
-      - name: rekorUrl
-        value: $(params.rekor-url)
-      taskRef:
-        name: {{ .Values.app.name }}-rekor-signed-provenance
-      runAfter:
-      - acs-image-check
-      - acs-image-scan
-      - acs-deploy-check
+    # - name: query-rekor-signed-provenance
+    #   params:
+    #   - name: imageDigest
+    #     value: $(tasks.build-sign-image.results.IMAGE_DIGEST)
+    #   - name: rekorUrl
+    #     value: $(params.rekor-url)
+    #   taskRef:
+    #     name: {{ .Values.app.name }}-rekor-signed-provenance
+    #   runAfter:
+    #   - acs-image-check
+    #   - acs-image-scan
+    #   - acs-deploy-check
     - name: resync
       params:
       - name: COMPONENT_ID
         value: $(params.component-id)
       runAfter:
       - scan-export-sbom
-      - query-rekor-signed-provenance
+      # - query-rekor-signed-provenance
       taskRef:
         name: {{ .Values.app.name }}-resync
   results:
