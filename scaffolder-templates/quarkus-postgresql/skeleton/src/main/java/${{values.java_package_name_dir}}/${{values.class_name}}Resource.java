@@ -6,7 +6,6 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 
 @Path("/api/${{ values.component_id }}")
-@RunOnVirtualThread
 public class ${{ values.class_name}}Resource {
 
     @GET
