@@ -20,7 +20,7 @@ metadata:
   name: ${{values.user}}-{{ .Values.namespace.name }}
 subjects:
   - apiGroup: rbac.authorization.k8s.io
-    kind: User
+    kind: Group
     name: ${{values.user}}
 roleRef:
   apiGroup: rbac.authorization.k8s.io

@@ -11,16 +11,13 @@ metadata:
     backstage.io/source-location: url:https://${{values.host}}/${{values.destination}}
     backstage.io/techdocs-ref: url:https://${{values.host}}/${{values.destination}}
     gitlab.com/project-slug: ${{values.destination}}
-    sonarqube.org/project-key: ${{values.user}}-${{values.component_id}}
   tags:
+    - java
     - quarkus
-  # links:
-    # - url: https://devspaces${{values.cluster}}/#https://${{values.host}}/${{values.destination}}
-    #   title: OpenShift Dev Spaces (VS Code)
-    #   icon: web
-    # - url: https://devspaces${{values.cluster}}/#https://${{values.host}}/${{values.destination}}?che-editor=che-incubator/che-idea/latest
-    #   title: OpenShift Dev Spaces (JetBrains IntelliJ)
-    #   icon: web
+  links:
+    - url: https://console-openshift-console${{values.cluster}}/topology/ns/${{values.namespace}}?view=graph
+      title: Console OpenShift
+      icon: web
 spec:
   type: service
   lifecycle: production

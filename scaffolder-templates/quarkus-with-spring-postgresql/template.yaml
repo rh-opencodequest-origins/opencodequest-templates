@@ -5,9 +5,10 @@ metadata:
   title: "OpenCodeQuest - Quarkus microservice with Spring MVC and Spring Data"
   description: "Create a Quarkus with Spring extension microservice with Postgresql"
   tags:
-    - villain-service
+    # - villain-service
     - java
     - quarkus
+    - spring-boot
     - opencodequest
 spec:
   owner: {{ group }}
@@ -62,10 +63,10 @@ spec:
     - title: Provide Information for Application
       required:
         - component_id
-        - java_package_name
-        - api_endpoint
+        # - java_package_name
+        # - api_endpoint
         - group_id
-        - artifact_id
+        # - artifact_id
         - system
         - owner_group
       properties:
@@ -101,21 +102,21 @@ spec:
           type: string
           default: com.redhat.workshop
           description: Maven Group Id
-        artifact_id:
-          title: Artifact Id
-          type: string
-          default: villain-service
-          description: Maven Artifact Id
-        java_package_name:
-          title: Java Package Name
-          type: string
-          description: Name for the java package. eg (com.redhat.blah)
-          default: io.quarkus.workshop.villain
-        api_endpoint:
-          title: API Endpoint
-          default: /api/villains
-          type: string
-          description: Path of the first API Endpoint
+        # artifact_id:
+        #   title: Artifact Id
+        #   type: string
+        #   default: villain-service
+        #   description: Maven Artifact Id
+        # java_package_name:
+        #   title: Java Package Name
+        #   type: string
+        #   description: Name for the java package. eg (com.redhat.blah)
+        #   default: io.quarkus.workshop.villain
+        # api_endpoint:
+        #   title: API Endpoint
+        #   default: /api/villains
+        #   type: string
+        #   description: Path of the first API Endpoint
         description:
           title: Description
           type: string
@@ -154,13 +155,14 @@ spec:
         copyWithoutTemplating:
           - .github/workflows/*
         values:
-          component_id: "${{ '{{' }} parameters.component_id {{ '}}' }}"
+          component_id: "${{ '{{' }} parameters.component_id | lower {{ '}}' }}"
+          class_name: "${{ '{{' }} parameters.component_id | replace('_', ' ') | title | replace(' ', '') {{ '}}' }}"
           description: "${{ '{{' }} parameters.description {{ '}}' }}"
           namespace: "${{ '{{' }} user.entity.spec.memberOf[0] {{ '}}' }}-workshop-dev"
           group_id: "${{ '{{' }} parameters.group_id {{ '}}' }}"
-          artifact_id: "${{ '{{' }} parameters.artifact_id {{ '}}' }}"
-          java_package_name: "${{ '{{' }} parameters.java_package_name {{ '}}' }}"
-          java_package_name_dir: "${{ '{{' }} parameters.java_package_name | replace('.', '/') {{ '}}' }}"
+          artifact_id: "${{ '{{' }} parameters.component_id | lower {{ '}}' }}-service"
+          java_package_name: "io.quarkus.workshop.${{ '{{' }} parameters.component_id | lower {{ '}}' }}"
+          java_package_name_dir: "io/quarkus/workshop/${{ '{{' }} parameters.component_id | lower {{ '}}' }}"
           owner: "${{ '{{' }} user.entity.spec.memberOf[0] {{ '}}' }}"
           cluster: ".${{ '{{' }} parameters.openshiftCluster {{ '}}' }}"
           host: "${{ '{{' }} parameters.repo.host {{ '}}' }}.${{ '{{' }} parameters.openshiftCluster {{ '}}' }}"
@@ -168,7 +170,7 @@ spec:
           quay_destination: "${{ '{{' }} parameters.image_organization{{ '}}' }}/${{ '{{' }} user.entity.spec.memberOf[0] {{ '}}' }}-${{ '{{' }} parameters.component_id {{ '}}' }}"
           port: 8080
           verify_commits: "${{ '{{' }} parameters.repo.verify_commits {{ '}}' }}"
-          api_endpoint: "${{ '{{' }} parameters.api_endpoint {{ '}}' }}"
+          # api_endpoint: "${{ '{{' }} parameters.api_endpoint {{ '}}' }}"
           system: "${{ '{{' }} parameters.system {{ '}}' }}"
           user: "${{ '{{' }} parameters.owner_group | parseEntityRef | pick('name') {{ '}}' }}"
 
