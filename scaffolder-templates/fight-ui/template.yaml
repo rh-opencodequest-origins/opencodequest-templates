@@ -16,7 +16,7 @@ spec:
         - openshiftCluster
       properties:
         openshiftCluster:
-          title: OpenShift Clusters
+          title: OpenShift Cluster
           type: string
           enum:
             - {{ cluster_subdomain }}
@@ -57,12 +57,12 @@ spec:
           git_host: "gitlab-gitlab.${{ '{{' }} parameters.openshiftCluster {{ '}}' }}"
           gitlabGroup: "${{ '{{' }} user.entity.spec.memberOf[0] {{ '}}' }}"
           repoName: fight-ui
-          owner: "${{ '{{' }} user.entity.spec.memberOf[0] {{ '}}' }}"
           cluster_id: ".${{ '{{' }} parameters.openshiftCluster {{ '}}' }}"
           namespace: "${{ '{{' }} user.entity.spec.memberOf[0] {{ '}}' }}-workshop-dev"
           component_id: fight-ui
+          owner: "${{ '{{' }} user.entity.spec.memberOf[0] {{ '}}' }}"
           system: "${{ '{{' }} parameters.system {{ '}}' }}"
-          user: "${{ '{{' }} parameters.owner_group {{ '}}' }}"
+          user: "${{ '{{' }} parameters.owner_group | parseEntityRef | pick('name') {{ '}}' }}"
           host: "gitlab-gitlab.${{ '{{' }} parameters.openshiftCluster {{ '}}' }}"
           destination: "${{ '{{' }} user.entity.spec.memberOf[0] {{ '}}' }}/fight-ui"
 
