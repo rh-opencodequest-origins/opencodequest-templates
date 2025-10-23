@@ -67,7 +67,7 @@ spec:
         - group_id
         # - artifact_id
         - system
-        - owner_group
+        # - owner_group
       properties:
         component_id:
           title: Name
@@ -86,16 +86,16 @@ spec:
               kind: System
             defaultKind: System
           ui:help: 'Choose from existing systems in your organization'
-        owner_group:
-          title: Owner Group
-          type: string
-          description: Select the group that will own this service
-          ui:field: EntityPicker
-          ui:options:
-            catalogFilter:
-              kind: Group
-            defaultKind: Group
-          ui:help: 'Choose from existing groups in your organization'
+        # owner_group:
+        #   title: Owner Group
+        #   type: string
+        #   description: Select the group that will own this service
+        #   ui:field: EntityPicker
+        #   ui:options:
+        #     catalogFilter:
+        #       kind: Group
+        #     defaultKind: Group
+        #   ui:help: 'Choose from existing groups in your organization'
         group_id:
           title: Group Id
           type: string
@@ -162,7 +162,6 @@ spec:
           artifact_id: "${{ '{{' }} parameters.component_id | lower {{ '}}' }}-service"
           java_package_name: "io.quarkus.workshop.${{ '{{' }} parameters.component_id | lower {{ '}}' }}"
           java_package_name_dir: "io/quarkus/workshop/${{ '{{' }} parameters.component_id | lower {{ '}}' }}"
-          owner: "${{ '{{' }} user.entity.spec.memberOf[0] {{ '}}' }}"
           cluster: ".${{ '{{' }} parameters.openshiftCluster {{ '}}' }}"
           host: "${{ '{{' }} parameters.repo.host {{ '}}' }}.${{ '{{' }} parameters.openshiftCluster {{ '}}' }}"
           destination: "${{ '{{' }} user.entity.spec.memberOf[0] {{ '}}' }}/${{ '{{' }} parameters.component_id {{ '}}' }}"
@@ -171,7 +170,10 @@ spec:
           verify_commits: "${{ '{{' }} parameters.repo.verify_commits {{ '}}' }}"
           # api_endpoint: "${{ '{{' }} parameters.api_endpoint {{ '}}' }}"
           system: "${{ '{{' }} parameters.system {{ '}}' }}"
-          user: "${{ '{{' }} parameters.owner_group | parseEntityRef | pick('name') {{ '}}' }}"
+          owner: "${{ '{{' }} user.entity.spec.memberOf[0] {{ '}}' }}"
+          user: "${{ '{{' }} user.entity.spec.memberOf[0] {{ '}}' }}"
+          # user: "${{ '{{' }} parameters.owner_group | parseEntityRef | pick('name') {{ '}}' }}"
+
 
 # ------ Gitlab Steps
 
@@ -215,7 +217,8 @@ spec:
           port: 8080
           repository_host: "${{ '{{' }} parameters.repo.host {{ '}}' }}.${{ '{{' }} parameters.openshiftCluster {{ '}}' }}"
           deployment_name: "${{ '{{' }} parameters.component_id {{ '}}' }}"
-          user: "${{ '{{' }} parameters.owner_group | parseEntityRef | pick('name') {{ '}}' }}"
+          # user: "${{ '{{' }} parameters.owner_group | parseEntityRef | pick('name') {{ '}}' }}"
+          user: "${{ '{{' }} user.entity.spec.memberOf[0] {{ '}}' }}"
           verify_commits: "${{ '{{' }} parameters.repo.verify_commits {{ '}}' }}"
           stackrox_endpoint: "${{ '{{' }} parameters.stackrox_endpoint {{ '}}' }}"
         targetPath: ./tenant-gitops
