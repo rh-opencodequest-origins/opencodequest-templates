@@ -80,3 +80,17 @@ Create the name of the service account to use
 {{- printf "%s/%s/%s:latest" .Values.image.host .Values.namespace.name .Values.image.name -}}
 {{- end }}
 {{- end }}
+
+{{/*
+Generate database password - reuses existing or creates new
+*/}}
+{{- define "quarkus-template.databasePassword" -}}
+{{- $secret := lookup "v1" "Secret" .Release.Namespace (printf "%s-database" .Values.deployment_name) -}}
+{{- if $secret -}}
+{{- $secret.data.POSTGRESQL_PASSWORD | b64dec -}}
+{{- else if .Values.database.password -}}
+{{- .Values.database.password -}}
+{{- else -}}
+{{- randAlphaNum 16 -}}
+{{- end -}}
+{{- end -}}

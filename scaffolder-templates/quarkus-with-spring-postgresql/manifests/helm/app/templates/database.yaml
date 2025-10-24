@@ -6,8 +6,12 @@ metadata:
 type: Opaque
 stringData:
   POSTGRESQL_USER: ${{values.deployment_name}}
-  POSTGRESQL_PASSWORD: {{ randAlphaNum 16 }}
+  POSTGRESQL_PASSWORD: {{ include "quarkus-template.databasePassword" . }}
   POSTGRESQL_DATABASE: ${{values.deployment_name}}db
+  username: ${{values.deployment_name}}
+  password: {{ include "quarkus-template.databasePassword" . }}
+  dbname: ${{values.deployment_name}}db
+  jdbc-uri: jdbc:postgresql://${{values.deployment_name}}:5432/${{values.deployment_name}}?password={{ include "quarkus-template.databasePassword" . }}&user=${{values.deployment_name}}
 
 ---
 
