@@ -3,6 +3,8 @@ apiVersion: v1
 kind: Secret
 metadata:
   name: ${{values.deployment_name}}-database
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"
 type: Opaque
 stringData:
   POSTGRESQL_USER: ${{values.deployment_name}}

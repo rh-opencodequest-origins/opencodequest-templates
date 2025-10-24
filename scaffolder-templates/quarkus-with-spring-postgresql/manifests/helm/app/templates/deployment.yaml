@@ -7,6 +7,7 @@ metadata:
     {{- include "quarkus-template.labels" . | nindent 4 }}
   annotations:
     app.openshift.io/connects-to: '[{"apiVersion":"apps/v1","kind":"Deployment","name":"${{values.deployment_name}}-database"}]'
+    argocd.argoproj.io/sync-wave: "5"
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
