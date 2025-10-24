@@ -88,7 +88,7 @@ Generate database password - reuses existing or creates new
 {{- $secret := lookup "v1" "Secret" .Release.Namespace (printf "%s-database" .Values.deployment_name) -}}
 {{- if $secret -}}
 {{- $secret.data.POSTGRESQL_PASSWORD | b64dec -}}
-{{- else if .Values.database.password -}}
+{{- else if and .Values.database .Values.database.password -}}
 {{- .Values.database.password -}}
 {{- else -}}
 {{- randAlphaNum 16 -}}
