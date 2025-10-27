@@ -1,17 +1,21 @@
 {{- if not (eq .Values.environment "prod") -}}
+{{- $dbPassword := include "quarkus-template.databasePassword" . -}}
+
 apiVersion: v1
 kind: Secret
 metadata:
   name: ${{values.deployment_name}}-database
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"
 type: Opaque
 stringData:
   POSTGRESQL_USER: ${{values.deployment_name}}
-  POSTGRESQL_PASSWORD: {{ include "quarkus-template.databasePassword" . }}
+  POSTGRESQL_PASSWORD: {{ $dbPassword | quote }}
   POSTGRESQL_DATABASE: ${{values.deployment_name}}db
   username: ${{values.deployment_name}}
-  password: {{ include "quarkus-template.databasePassword" . }}
+  password: {{ $dbPassword | quote }}
   dbname: ${{values.deployment_name}}db
-  jdbc-uri: jdbc:postgresql://${{values.deployment_name}}-database:5432/${{values.deployment_name}}db?password={{ include "quarkus-template.databasePassword" . }}&user=${{values.deployment_name}}
+  jdbc-uri: jdbc:postgresql://${{values.deployment_name}}-database:5432/${{values.deployment_name}}db?password={{ $dbPassword | quote }}&user=${{values.deployment_name}}
 
 ---
 
