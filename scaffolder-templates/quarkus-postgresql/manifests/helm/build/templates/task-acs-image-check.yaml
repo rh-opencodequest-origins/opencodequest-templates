@@ -59,6 +59,12 @@ spec:
       ./roxctl image check \
         $( [ "$(params.insecure-skip-tls-verify)" = "true" ] && \
         echo -n "--insecure-skip-tls-verify") \
+        -e "$(params.rox_central_endpoint)" --image "$IMAGE"
+      sleep 2 
+      echo
+      ./roxctl image check \
+        $( [ "$(params.insecure-skip-tls-verify)" = "true" ] && \
+        echo -n "--insecure-skip-tls-verify") \
         -e "$(params.rox_central_endpoint)" --image "$IMAGE" --output json > roxctl_image_check.json
       r=$?
       cat roxctl_image_check.json >  $(workspaces.reports.path)/image-check
