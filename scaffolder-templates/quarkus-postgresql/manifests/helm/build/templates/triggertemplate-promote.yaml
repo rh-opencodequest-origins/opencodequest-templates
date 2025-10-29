@@ -50,7 +50,7 @@ spec:
           - name: common-password-secret
             value: common-password-secret
           - name: argocd-host
-            value: argocd-server-janus-argocd{{ .Values.app.cluster }}
+            value: rhdh-gitops{{ .Values.app.cluster }}
           - name: policy-configuration
             value: 'git::github.com/redhat-gpe/config//default'
           - name: rekor-host
@@ -62,5 +62,5 @@ spec:
         serviceAccountName: image-pusher
         timeout: 1h0m0s
         workspaces:
-          - name: images-url
+          - name: images_url
             emptyDir: {}

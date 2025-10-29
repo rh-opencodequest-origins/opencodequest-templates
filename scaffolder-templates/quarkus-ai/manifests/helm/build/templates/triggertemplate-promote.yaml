@@ -62,5 +62,5 @@ spec:
         serviceAccountName: {{ .Values.app.name }}-image-pusher
         timeout: 1h0m0s
         workspaces:
-          - name: images-url
+          - name: images_url
             emptyDir: {}

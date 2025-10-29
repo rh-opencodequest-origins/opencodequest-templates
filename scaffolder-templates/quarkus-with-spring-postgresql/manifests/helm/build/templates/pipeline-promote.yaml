@@ -84,8 +84,8 @@ spec:
       runAfter:
         - verify-enterprise-contract
       workspaces:
-        - name: images-url
-          workspace: images-url
+        - name: images_url
+          workspace: images_url
     - name: patch-deployment
       params:
         - name: namespace
@@ -128,8 +128,8 @@ spec:
           - name: namespace
             value: openshift-pipelines 
       workspaces:
-        - name: images-url
-          workspace: images-url
+        - name: images_url
+          workspace: images_url
     - name: copy-image-latest
       params:
         - name: srcImageURL
@@ -152,8 +152,8 @@ spec:
       runAfter:
         - copy-image-tag
       workspaces:
-        - name: images-url
-          workspace: images-url
+        - name: images_url
+          workspace: images_url
 {{- end }}
   workspaces:
-    - name: images-url
+    - name: images_url

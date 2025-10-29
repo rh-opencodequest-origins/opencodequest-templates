@@ -9,4 +9,4 @@ spec:
     - name: destination-tag
       value: $(extensions.tag_version)
     - name: namespace
-      value: {{ .Values.app.name }}-preprod
+      value: {{ .Values.user }}-workshop-preprod
