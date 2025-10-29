@@ -85,7 +85,7 @@ Create the name of the service account to use
 Generate database password - reuses existing or creates new
 */}}
 {{- define "quarkus-template.databasePassword" -}}
-{{- $secret := lookup "v1" "Secret" .Release.Namespace (printf "%s-database" .Values.deployment_name) -}}
+{{- $secret := lookup "v1" "Secret" .Release.Namespace (printf "%s-database-app" .Values.deployment_name) -}}
 {{- if $secret -}}
 {{- $secret.data.POSTGRESQL_PASSWORD | b64dec -}}
 {{- else if and .Values.database .Values.database.password -}}
