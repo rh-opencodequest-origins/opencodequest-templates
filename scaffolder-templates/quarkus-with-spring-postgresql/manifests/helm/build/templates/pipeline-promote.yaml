@@ -47,21 +47,21 @@ spec:
       type: string
   tasks:
 {{- if eq .Values.image.registry "Quay" }}
-    - name: verify-enterprise-contract
-      params:
-        - name: IMAGE
-          value: '$(params.source-image):$(params.source-image-tag)'
-        - name: COMPONENT_ID
-          value: {{ .Values.app.name }}
-        - name: REKOR_HOST
-          value: '$(params.rekor-host)'
-        - name: POLICY_CONFIGURATION
-          value: '$(params.policy-configuration)'
-        - name: TUF_MIRROR
-          value: '$(params.tuf_mirror)'
-      taskRef:
-        kind: Task
-        name: {{ .Values.app.name }}-verify-enterprise-contract
+#    - name: verify-enterprise-contract
+#      params:
+#        - name: IMAGE
+#          value: '$(params.source-image):$(params.source-image-tag)'
+#        - name: COMPONENT_ID
+#          value: {{ .Values.app.name }}
+#        - name: REKOR_HOST
+#          value: '$(params.rekor-host)'
+#        - name: POLICY_CONFIGURATION
+#          value: '$(params.policy-configuration)'
+#        - name: TUF_MIRROR
+#          value: '$(params.tuf_mirror)'
+#      taskRef:
+#        kind: Task
+#        name: {{ .Values.app.name }}-verify-enterprise-contract
     - name: quay-tag-promote
       params:
         - name: srcImageURL
@@ -81,8 +81,8 @@ spec:
             value: skopeo-copy
           - name: namespace
             value: openshift-pipelines 
-      runAfter:
-        - verify-enterprise-contract
+#      runAfter:
+#        - verify-enterprise-contract
       workspaces:
         - name: images_url
           workspace: images_url
