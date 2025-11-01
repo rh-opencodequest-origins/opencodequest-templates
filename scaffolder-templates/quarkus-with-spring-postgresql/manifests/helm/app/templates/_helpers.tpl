@@ -91,6 +91,6 @@ Generate database password - reuses existing or creates new
 {{- else if and .Values.database .Values.database.password -}}
 {{- .Values.database.password -}}
 {{- else -}}
-{{- randAlphaNum 16 -}}
+{{- printf "%s-%s" .Release.Namespace .Release.Name | sha256sum -}}
 {{- end -}}
 {{- end -}}
