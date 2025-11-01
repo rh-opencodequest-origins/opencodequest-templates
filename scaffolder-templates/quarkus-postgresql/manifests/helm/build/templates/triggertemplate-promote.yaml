@@ -50,7 +50,7 @@ spec:
           - name: common-password-secret
             value: common-password-secret
           - name: argocd-host
-            value: rhdh-gitops{{ .Values.app.cluster }}
+            value: rhdh-gitops-server-rhdh-gitops{{ .Values.app.cluster }}
           - name: policy-configuration
             value: 'git::github.com/redhat-gpe/config//default'
           - name: rekor-host
