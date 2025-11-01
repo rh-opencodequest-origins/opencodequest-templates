@@ -64,13 +64,13 @@ spec:
 #        name: {{ .Values.app.name }}-verify-enterprise-contract
     - name: quay-tag-promote
       params:
-        - name: srcImageURL
+        - name: SOURCE_IMAGE_URL
           value: 'docker://$(params.source-image):$(params.source-image-tag)'
-        - name: destImageURL
-          value: 'docker://$(params.source-image):$(params.destination-image-tag)'
-        - name: srcTLSverify
+        - name: DESTINATION_IMAGE_URL
+          value: 'docker://$(params.destination-image):$(params.destination-image-tag)'
+        - name: SRC_TLS_VERIFY
           value: 'false'
-        - name: destTLSverify
+        - name: DEST_TLS_VERIFY
           value: 'false'
       taskRef:
         resolver: cluster
