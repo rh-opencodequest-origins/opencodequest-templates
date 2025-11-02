@@ -64,12 +64,8 @@ spec:
     - title: Provide Information for Application
       required:
         - component_id
-        # - java_package_name
-        # - api_endpoint
         - group_id
-        # - artifact_id
         - system
-        # - owner_group
       properties:
         component_id:
           title: Name
@@ -88,36 +84,11 @@ spec:
               kind: System
             defaultKind: System
           ui:help: 'Choose from existing systems in your organization'
-        # owner_group:
-        #   title: Owner Group
-        #   type: string
-        #   description: Select the group that will own this service
-        #   ui:field: EntityPicker
-        #   ui:options:
-        #     catalogFilter:
-        #       kind: Group
-        #     defaultKind: Group
-        #   ui:help: 'Choose from existing groups in your organization'
         group_id:
           title: Group Id
           type: string
           default: com.redhat.workshop
           description: Maven Group Id
-        # artifact_id:
-        #   title: Artifact Id
-        #   type: string
-        #   default: fight-service
-        #   description: Maven Artifact Id
-        # java_package_name:
-        #   title: Java Package Name
-        #   type: string
-        #   description: Name for the java package. eg (com.redhat.blah)
-        #   default: io.quarkus.workshop.fight
-        # api_endpoint:
-        #   title: API Endpoint
-        #   default: /api/fight
-        #   type: string
-        #   description: Path of the first API Endpoint
         description:
           title: Description
           type: string
@@ -170,11 +141,9 @@ spec:
           quay_destination: "${{ '{{' }} parameters.image_organization{{ '}}' }}/${{ '{{' }} user.entity.spec.memberOf[0] {{ '}}' }}-${{ '{{' }} parameters.component_id {{ '}}' }}"
           port: 8080
           verify_commits: "${{ '{{' }} parameters.repo.verify_commits {{ '}}' }}"
-          # api_endpoint: "${{ '{{' }} parameters.api_endpoint {{ '}}' }}"
           system: "${{ '{{' }} parameters.system {{ '}}' }}"
           owner: "${{ '{{' }} user.entity.spec.memberOf[0] {{ '}}' }}"
           user: "${{ '{{' }} user.entity.spec.memberOf[0] {{ '}}' }}"
-          # user: "${{ '{{' }} parameters.owner_group | parseEntityRef | pick('name') {{ '}}' }}"
 
 
 # ------ Gitlab Steps
