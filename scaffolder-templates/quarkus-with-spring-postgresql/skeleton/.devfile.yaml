@@ -73,7 +73,7 @@ commands:
     exec:
       label: "Quarkus config"
       component: development-tooling
-      commandLine: "sed -i \"s/SOMETHING/$(oc get dw --sort-by=.metadata.creationTimestamp -o jsonpath='{.items[?(@.status.phase==\"Starting\")].metadata.name}')/\" /projects/*/src/main/resources/application.properties"
+      commandLine: "sed -i \"s/SOMETHING/$(oc get dw --sort-by=.metadata.creationTimestamp -o jsonpath='{.items[?(@.status.phase==\"Starting\")].metadata.name}')/g\" /projects/*/src/main/resources/application.properties"
       group:
         kind: run
         isDefault: true
